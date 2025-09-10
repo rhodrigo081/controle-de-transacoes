@@ -1,6 +1,5 @@
 package org.example.service;
 
-import com.google.api.gax.rpc.NotFoundException;
 import org.example.model.Account;
 import org.example.repository.AccountRepository;
 import org.example.utils.PassworUtils;
@@ -21,11 +20,11 @@ public class AccountService {
 
     public Account createAccount(Account account, String confirmePassword) throws ExecutionException, InterruptedException {
         try {
-            if (account.getOwnerCPF().isEmpty() || account.getOwnerName().isEmpty() || account.getPassword().isEmpty()) {
+            if (account.getDocument().isEmpty() || account.getName().isEmpty() || account.getPassword().isEmpty()) {
                 throw new IllegalArgumentException("Todos os campos são obrigatórios!");
             }
 
-            if (accountRepository.findByOwnerCPF(account.getOwnerCPF()) != null) {
+            if (accountRepository.findByDocument(account.getDocument()) != null) {
                 throw new IllegalArgumentException("CPF já cadastrado!");
             }
 
@@ -46,10 +45,14 @@ public class AccountService {
 
         try {
             if(login.isEmpty() || password.isEmpty()) {
-                throw new IllegalArgumentException("Tdos os campos são obrigatórios!");
+                throw new IllegalArgumentException("Todos os campos são obrigatórios!");
             }
 
-            if(login.contains("@")) {}
+            if(login.contains("@")) {
+                return accountRepository.findByEmail(login);
+            } else if (login.length() == 11 || login.length() == 14) {
+                return accountRepository.findByDocument(login);
+            }
 
             return
         }

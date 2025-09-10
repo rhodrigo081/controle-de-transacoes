@@ -19,9 +19,11 @@ public class Account {
 
     @DocumentId
     protected String id;
-    protected String ownerName;
-    protected String ownerCPF;
+    protected String name;
+    protected String document;
     protected String password;
+    protected String email;
+    protected String phone;
     protected AccountType type;
     protected List<PixKey> pixKey;
     protected Double balance;
